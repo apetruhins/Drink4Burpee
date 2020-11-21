@@ -22,7 +22,7 @@ namespace Drink4Burpee.Controllers
         private readonly IDrinkService _drinkService;
         private readonly IDrinkBurpeeService _drinkBurpeeService;
 
-        public DrinksController(ILogger<BurpeesController> logger,
+        public DrinksController(ILogger<DrinksController> logger,
             IDrink4BurpeeDbSettings settings,
             IUserService userService,
             IMapper mapper, 

@@ -45,7 +45,8 @@ namespace Drink4Burpee
 
             services.AddSingleton<IDrink4BurpeeDbSettings>(sp => sp.GetRequiredService<IOptions<Drink4BurpeeDbSettings>>().Value);
 
-            services.AddTransient<IUserService, UserService>();
+            services.AddSingleton<IUserService, UserService>();
+            
             services.AddTransient<IDrinkService, DrinkService>();
             services.AddTransient<IDrinkBurpeeService, DrinkBurpeeService>();
             services.AddTransient<IExerciseBurpeeService, ExerciseBurpeeService>();

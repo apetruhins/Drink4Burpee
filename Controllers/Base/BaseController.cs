@@ -11,7 +11,7 @@ namespace Drink4Burpee.Controllers.Base
         protected readonly IDrink4BurpeeDbSettings _settings;
         protected readonly IUserService _userService;
 
-        public BaseController(ILogger<BurpeesController> logger,
+        public BaseController(ILogger<BaseController> logger,
             IDrink4BurpeeDbSettings settings,
             IUserService userService)
         {
