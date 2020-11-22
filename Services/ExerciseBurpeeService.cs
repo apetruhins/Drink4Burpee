@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Drink4Burpee.Entities;
-using Drink4Burpee.Models;
 using Drink4Burpee.Services.Base;
 using Drink4Burpee.Services.Interfaces;
 
@@ -12,7 +11,7 @@ namespace Drink4Burpee.Services
     {
         private readonly IUserService _userService;
 
-        public ExerciseBurpeeService(IDrink4BurpeeDbSettings settings,
+        public ExerciseBurpeeService(IApplicationSettings settings,
             IUserService userService)
             : base(settings)
         {

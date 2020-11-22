@@ -1,3 +1,7 @@
+Replace adding penalty burpees on get drink with real scheduled process
+Security:
+    Access to database, IP whitelist
+    Access to API, by URL
 Drink type + red badge
 Display user level in GUI
 Volume of glasses

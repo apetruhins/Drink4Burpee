@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Drink4Burpee.Constants;
 using Drink4Burpee.Entities;
-using Drink4Burpee.Models;
 using Drink4Burpee.Services.Base;
 using Drink4Burpee.Services.Interfaces;
 using MongoDB.Driver;
@@ -14,7 +13,7 @@ namespace Drink4Burpee.Services
     {
         private readonly IMongoCollection<User> _users;
 
-        public UserService(IDrink4BurpeeDbSettings settings)
+        public UserService(IApplicationSettings settings)
             : base(settings)
         {
             var client = new MongoClient(settings.ConnectionString);

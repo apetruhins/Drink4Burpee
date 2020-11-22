@@ -8,9 +8,7 @@ using Drink4Burpee.Services.Interfaces;
 using Drink4Burpee.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Drink4Burpee.Models;
 using Drink4Burpee.Controllers.Base;
-using System.Linq;
 
 namespace Drink4Burpee.Controllers
 {
@@ -23,7 +21,7 @@ namespace Drink4Burpee.Controllers
         private readonly IDrinkBurpeeService _drinkBurpeeService;
 
         public DrinksController(ILogger<DrinksController> logger,
-            IDrink4BurpeeDbSettings settings,
+            IApplicationSettings settings,
             IUserService userService,
             IMapper mapper, 
             IDrinkService drinkService,

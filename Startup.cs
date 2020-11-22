@@ -7,7 +7,6 @@ using Drink4Burpee.Services;
 using Drink4Burpee.Services.Interfaces;
 using AutoMapper;
 using System.Reflection;
-using Drink4Burpee.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson;
@@ -26,6 +25,8 @@ namespace Drink4Burpee
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appSettingsSection = Configuration.GetSection(nameof(ApplicationSettings));
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddCors(options =>
@@ -33,17 +34,17 @@ namespace Drink4Burpee
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins(Configuration.GetValue<string>("GuiBaseURL"))
+                        builder.WithOrigins(appSettingsSection.GetValue<string>("GuiBaseURL"))
                             .WithMethods("GET", "POST")
                             .WithHeaders("Content-Type");
                     });
             });
 
-            services.Configure<Drink4BurpeeDbSettings>(Configuration.GetSection(nameof(Drink4BurpeeDbSettings)));
+            services.Configure<ApplicationSettings>(appSettingsSection);
 
             services.AddControllers();
 
-            services.AddSingleton<IDrink4BurpeeDbSettings>(sp => sp.GetRequiredService<IOptions<Drink4BurpeeDbSettings>>().Value);
+            services.AddSingleton<IApplicationSettings>(sp => sp.GetRequiredService<IOptions<ApplicationSettings>>().Value);
 
             services.AddSingleton<IUserService, UserService>();
             

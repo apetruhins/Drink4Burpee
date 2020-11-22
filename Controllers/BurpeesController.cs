@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Drink4Burpee.Controllers.Base;
-using Drink4Burpee.Models;
 using Drink4Burpee.Models.InputModels;
 using Drink4Burpee.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +16,7 @@ namespace Drink4Burpee.Controllers
         private readonly IDrinkBurpeeService _drinkBurpeeService;
 
         public BurpeesController(ILogger<BurpeesController> logger,
-            IDrink4BurpeeDbSettings settings,
+            IApplicationSettings settings,
             IUserService userService,
             IExerciseBurpeeService exerciseBurpeeService,
             IDrinkBurpeeService drinkBurpeeService)
