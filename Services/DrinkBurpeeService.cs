@@ -58,13 +58,12 @@ namespace Drink4Burpee.Services
                 return;
             }
 
-            var hasPenaltyBurpeeLast24H = user
-                .Drinks
-                .SelectMany(drink => drink.DrinkBurpees)
-                .Any(b => b.BurpeeType == DrinkBurpeeType.Penalty 
-                    && b.CreatedDateTime.AddDays(1) > DateTime.Now);
+            var penaltyBurpeeLast24H = penaltyDrink
+                .DrinkBurpees
+                .OrderByDescending(b => b.CreatedDateTime)
+                .First();
 
-            if (hasPenaltyBurpeeLast24H)
+            if (penaltyBurpeeLast24H.CreatedDateTime.AddDays(1) > DateTime.Now)
             {
                 return;
             }
@@ -72,7 +71,8 @@ namespace Drink4Burpee.Services
             var penaltyBurpee = new DrinkBurpee
             {
                 BurpeeType = DrinkBurpeeType.Penalty,
-                Count = BusinessConstants.DRINK_BURPEE_COUNT_PENALTY + user.Level - 1
+                Count = BusinessConstants.DRINK_BURPEE_COUNT_PENALTY + user.Level - 1,
+                CreatedDateTime = penaltyBurpeeLast24H.CreatedDateTime.AddDays(1)
             };
 
             penaltyDrink.DrinkBurpees.Add(penaltyBurpee);
