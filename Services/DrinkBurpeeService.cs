@@ -94,5 +94,18 @@ namespace Drink4Burpee.Services
                 .SelectMany(drink => drink.DrinkBurpees)
                 .Sum(db => db.Count);
         }
+
+        public int GetOpenDrinkBurpeesCount(User user)
+        {
+            var openedDrinks = user.Drinks
+                .Where(d => !d.IsClosed)
+                .ToList();
+
+            var drinkBurpeeCount = openedDrinks.SelectMany(d => d.DrinkBurpees).Sum(db => db.Count);
+            var exerciseBurpeeCount = openedDrinks.SelectMany(d => d.ExerciseBurpees).Sum(eb => eb.Count);
+            var result = drinkBurpeeCount - exerciseBurpeeCount;
+
+            return result < 0 ? 0 : result;
+        }
     }
 }

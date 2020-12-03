@@ -6,7 +6,7 @@ namespace Drink4Burpee.Models.ViewModels
     {
         public List<DrinkViewModel> Drinks { get; set; } = new List<DrinkViewModel>();
 
-        public int TotalDrinkBurpees { get; set; }
+        public int TotalBurpees { get; set; }
         
         public int Offset {get; set; } = 0;
 

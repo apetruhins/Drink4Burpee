@@ -6,5 +6,7 @@ namespace Drink4Burpee.Services.Interfaces
     public interface IExerciseBurpeeService
     {
         Task RegisterExerciseBurpeesAsync(User user, int count);
+
+        int GetClosedExerciseBurpeesCount(User user);
     }
 }

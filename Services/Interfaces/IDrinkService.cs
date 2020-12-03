@@ -10,8 +10,6 @@ namespace Drink4Burpee.Services.Interfaces
 
         List<Drink> GetOpenDrinks(User user, int limit, int offset);
 
-        int GetOpenDrinkBurpeesCount(User user);
-
         List<Drink> GetClosedDrinks(User user, int limit, int offset);
     }
 }

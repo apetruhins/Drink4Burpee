@@ -95,5 +95,13 @@ namespace Drink4Burpee.Services
             await _userService.UpdateUserAsync(user);
             await _userService.UpdateUserLevelAsync(user);
         }
+
+        public int GetClosedExerciseBurpeesCount(User user)
+        {
+            return user.Drinks
+                .Where(d => d.IsClosed)
+                .SelectMany(d => d.ExerciseBurpees)
+                .Sum(eb => eb.Count);
+        }
     }
 }

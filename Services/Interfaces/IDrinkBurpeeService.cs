@@ -13,5 +13,7 @@ namespace Drink4Burpee.Services.Interfaces
         Task AddPenaltyDrinkBurpeesAsync(User user);
 
         int GetDebtBurpeeCount(User user);
+
+        int GetOpenDrinkBurpeesCount(User user);
     }
 }

@@ -60,19 +60,6 @@ namespace Drink4Burpee.Services
                 .ToList();
         }
 
-        public int GetOpenDrinkBurpeesCount(User user)
-        {
-            var openedDrinks = user.Drinks
-                .Where(d => d.IsClosed == false)
-                .ToList();
-
-            var drinkBurpeeCount = openedDrinks.SelectMany(d => d.DrinkBurpees).Sum(db => db.Count);
-            var exerciseBurpeeCount = openedDrinks.SelectMany(d => d.ExerciseBurpees).Sum(eb => eb.Count);
-            var result = drinkBurpeeCount - exerciseBurpeeCount;
-
-            return result < 0 ? 0 : result;
-        }
-
         public List<Drink> GetClosedDrinks(User user, int limit, int offset)
         {
             if (limit <= 0 || limit > BusinessConstants.DRINK_COUNT_LIMIT_MAX + 1)

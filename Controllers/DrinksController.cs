@@ -19,18 +19,21 @@ namespace Drink4Burpee.Controllers
         private readonly IMapper _mapper;
         private readonly IDrinkService _drinkService;
         private readonly IDrinkBurpeeService _drinkBurpeeService;
+        private readonly IExerciseBurpeeService _exerciseBurpeeService;
 
         public DrinksController(ILogger<DrinksController> logger,
             IApplicationSettings settings,
             IUserService userService,
             IMapper mapper, 
             IDrinkService drinkService,
-            IDrinkBurpeeService drinkBurpeeService)
+            IDrinkBurpeeService drinkBurpeeService,
+            IExerciseBurpeeService exerciseBurpeeService)
             : base(logger, settings, userService)
         {
             _mapper = mapper;
             _drinkService = drinkService;
             _drinkBurpeeService = drinkBurpeeService;
+            _exerciseBurpeeService = exerciseBurpeeService;
         }
         
         [HttpPost]
@@ -72,7 +75,7 @@ namespace Drink4Burpee.Controllers
 
                 ApplyPagingOnDrinksViewModel(drinksViewModel, limit, offset);
                 
-                drinksViewModel.TotalDrinkBurpees = _drinkService.GetOpenDrinkBurpeesCount(user);
+                drinksViewModel.TotalBurpees = _drinkBurpeeService.GetOpenDrinkBurpeesCount(user);
 
                 return Ok(drinksViewModel);
             }
@@ -127,6 +130,8 @@ namespace Drink4Burpee.Controllers
                 
                 ApplyPagingOnDrinksViewModel(drinksViewModel, limit, offset);
                 
+                drinksViewModel.TotalBurpees = _exerciseBurpeeService.GetClosedExerciseBurpeesCount(user);
+
                 return Ok(drinksViewModel);
             }
             catch (ArgumentOutOfRangeException aoorex)
