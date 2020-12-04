@@ -51,32 +51,66 @@ namespace Drink4Burpee.Services
 
         public async Task AddPenaltyDrinkBurpeesAsync(User user)
         {
-            var penaltyDrink =  GetPenaltyDrink(user);
+            var firstPenaltyDrink = GetPenaltyDrink(user);
 
-            if (penaltyDrink == null)
+            if (firstPenaltyDrink == null)
             {
                 return;
             }
 
-            var penaltyBurpeeLast24H = penaltyDrink
+            var lastPenaltyBurpee = firstPenaltyDrink
                 .DrinkBurpees
-                .OrderByDescending(b => b.CreatedDateTime)
-                .First();
+                .Where(db => db.BurpeeType == DrinkBurpeeType.Penalty)
+                .OrderByDescending(db => db.CreatedDateTime)
+                .FirstOrDefault();
 
-            if (penaltyBurpeeLast24H.CreatedDateTime.AddDays(1) > DateTime.Now)
+            if (lastPenaltyBurpee == null)
             {
-                return;
+                lastPenaltyBurpee = user.Drinks
+                    .SelectMany(d => d.DrinkBurpees)
+                    .Where(db => db.BurpeeType == DrinkBurpeeType.Penalty && db.CreatedDateTime.Date > firstPenaltyDrink.CreatedDateTime.Date)
+                    .OrderByDescending(db => db.CreatedDateTime)
+                    .FirstOrDefault();
             }
 
-            var penaltyBurpee = new DrinkBurpee
-            {
-                BurpeeType = DrinkBurpeeType.Penalty,
-                Count = BusinessConstants.DRINK_BURPEE_COUNT_PENALTY + user.Level - 1,
-                CreatedDateTime = penaltyBurpeeLast24H.CreatedDateTime.AddDays(1)
-            };
+            var hasChanges = false;
 
-            penaltyDrink.DrinkBurpees.Add(penaltyBurpee);
-            await _userService.UpdateUserAsync(user);
+            while (true)
+            {
+                if (lastPenaltyBurpee == null)
+                {
+                    lastPenaltyBurpee = new DrinkBurpee
+                    {
+                        BurpeeType = DrinkBurpeeType.Penalty,
+                        Count = BusinessConstants.DRINK_BURPEE_COUNT_PENALTY + user.Level - 1,
+                        CreatedDateTime = firstPenaltyDrink.CreatedDateTime.AddDays(1)
+                    };
+                }
+                else
+                {
+                    lastPenaltyBurpee = new DrinkBurpee
+                    {
+                        BurpeeType = DrinkBurpeeType.Penalty,
+                        Count = BusinessConstants.DRINK_BURPEE_COUNT_PENALTY + user.Level - 1,
+                        CreatedDateTime = lastPenaltyBurpee.CreatedDateTime.AddDays(1).Date.Add(
+                            firstPenaltyDrink.CreatedDateTime.TimeOfDay
+                        )
+                    };
+                }
+
+                if (lastPenaltyBurpee.CreatedDateTime > DateTime.Now)
+                {
+                    break;
+                }
+
+                firstPenaltyDrink.DrinkBurpees.Add(lastPenaltyBurpee);
+                hasChanges = true;
+            }
+            
+            if (hasChanges)
+            {
+                await _userService.UpdateUserAsync(user);
+            }
         }
 
         private Drink GetPenaltyDrink(User user)
