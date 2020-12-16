@@ -52,8 +52,12 @@ namespace Drink4Burpee
             services.AddTransient<IDrinkBurpeeService, DrinkBurpeeService>();
             services.AddTransient<IExerciseBurpeeService, ExerciseBurpeeService>();
 
-            var enumConvention = new ConventionPack { new EnumRepresentationConvention(BsonType.String) };
-            ConventionRegistry.Register("enumConvention", enumConvention, t => true);
+            var mongodbConventions = new ConventionPack 
+            { 
+                new EnumRepresentationConvention(BsonType.String),
+                new IgnoreIfNullConvention(true)
+            };
+            ConventionRegistry.Register("mongodbConventions", mongodbConventions, t => true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

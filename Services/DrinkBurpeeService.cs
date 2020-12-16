@@ -83,7 +83,8 @@ namespace Drink4Burpee.Services
                     {
                         BurpeeType = DrinkBurpeeType.Penalty,
                         Count = BusinessConstants.DRINK_BURPEE_COUNT_PENALTY + user.Level - 1,
-                        CreatedDateTime = firstPenaltyDrink.CreatedDateTime.AddDays(1)
+                        CreatedDateTime = firstPenaltyDrink.CreatedDateTime.AddDays(1),
+                        RealCreatedDateTime = DateTime.Now
                     };
                 }
                 else
@@ -94,7 +95,8 @@ namespace Drink4Burpee.Services
                         Count = BusinessConstants.DRINK_BURPEE_COUNT_PENALTY + user.Level - 1,
                         CreatedDateTime = lastPenaltyBurpee.CreatedDateTime.AddDays(1).Date.Add(
                             firstPenaltyDrink.CreatedDateTime.TimeOfDay
-                        )
+                        ),
+                        RealCreatedDateTime = DateTime.Now
                     };
                 }
 
