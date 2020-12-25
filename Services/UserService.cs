@@ -57,9 +57,14 @@ namespace Drink4Burpee.Services
 
         private int GetNextLevelFibonacciNumber(int nextLevel)
         {
-            if (nextLevel < 2)
+            if (nextLevel < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(nextLevel));
+            }
+
+            if (nextLevel == 1)
+            {
+                return 0;
             }
 
             var n1 = 0;

@@ -73,8 +73,13 @@ namespace Drink4Burpee.Controllers
 
                 var drinksViewModel = _mapper.Map<DrinkListWithProgressViewModel>(drinks);
                 drinksViewModel.Progress.Level = user.Level;
-                drinksViewModel.Progress.CurrentBurpeeCount = _exerciseBurpeeService.GetExerciseBurpeesCount(user);
-                drinksViewModel.Progress.NextLevelBurpeeCount = _userService.GetNextLevelBurpeeCount(user.NextLevel);
+                
+                var currentLevelBurpeeCount = _userService.GetNextLevelBurpeeCount(user.Level);
+                var nextLevelBurpeeCount = _userService.GetNextLevelBurpeeCount(user.NextLevel);
+                var totalExerciseBurpeeCount = _exerciseBurpeeService.GetExerciseBurpeesCount(user);
+
+                drinksViewModel.Progress.CurrentBurpeeCount = totalExerciseBurpeeCount - currentLevelBurpeeCount;
+                drinksViewModel.Progress.NextLevelBurpeeCount = nextLevelBurpeeCount - currentLevelBurpeeCount;
 
                 ApplyPagingOnDrinksViewModel(drinksViewModel, limit, offset);
                 
