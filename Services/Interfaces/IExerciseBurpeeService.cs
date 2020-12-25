@@ -8,5 +8,7 @@ namespace Drink4Burpee.Services.Interfaces
         Task RegisterExerciseBurpeesAsync(User user, int count);
 
         int GetClosedExerciseBurpeesCount(User user);
+
+        int GetExerciseBurpeesCount(User user);
     }
 }

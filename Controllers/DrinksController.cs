@@ -71,7 +71,10 @@ namespace Drink4Burpee.Controllers
                 var user = await _userService.GetUserAsync(_settings.DefaultUserId);
                 var drinks = _drinkService.GetOpenDrinks(user, limit + 1, offset);
 
-                var drinksViewModel = _mapper.Map<DrinkListViewModel>(drinks);
+                var drinksViewModel = _mapper.Map<DrinkListWithProgressViewModel>(drinks);
+                drinksViewModel.Progress.Level = user.Level;
+                drinksViewModel.Progress.CurrentBurpeeCount = _exerciseBurpeeService.GetExerciseBurpeesCount(user);
+                drinksViewModel.Progress.NextLevelBurpeeCount = _userService.GetNextLevelBurpeeCount(user.NextLevel);
 
                 ApplyPagingOnDrinksViewModel(drinksViewModel, limit, offset);
                 

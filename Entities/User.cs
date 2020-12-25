@@ -29,6 +29,15 @@ namespace Drink4Burpee.Entities
             } 
         }
 
+        [BsonIgnore]
+        public int NextLevel
+        {
+            get
+            {
+                return Level + 1;
+            }
+        }
+
         public List<Drink> Drinks { get; set; } = new List<Drink>();
     }
 }

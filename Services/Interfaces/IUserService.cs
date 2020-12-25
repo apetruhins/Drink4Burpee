@@ -10,5 +10,7 @@ namespace Drink4Burpee.Services.Interfaces
         Task UpdateUserAsync(User user);
 
         Task UpdateUserLevelAsync(User user);
+
+        int GetNextLevelBurpeeCount(int nextLevel);
     }
 }

@@ -39,6 +39,9 @@ namespace Drink4Burpee
         {
             CreateMap<IEnumerable<Drink>, DrinkListViewModel>()
                 .ForMember(vm => vm.Drinks, opt => opt.MapFrom(src => src));
+
+            CreateMap<IEnumerable<Drink>, DrinkListWithProgressViewModel>()
+                .IncludeBase<IEnumerable<Drink>, DrinkListViewModel>();
         }
     }
 }

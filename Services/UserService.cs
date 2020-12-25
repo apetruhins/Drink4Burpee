@@ -35,9 +35,7 @@ namespace Drink4Burpee.Services
 
         public async Task UpdateUserLevelAsync(User user)
         {
-            var nextLevel = user.Level + 1;
-            var nextLevelFibonacciNumber = GetNextLevelFibonacciNumber(nextLevel);
-            var nextLevelBurpeeCount = nextLevelFibonacciNumber * BusinessConstants.BURPEE_BASE_COUNT_IN_LEVEL;
+            var nextLevelBurpeeCount = GetNextLevelBurpeeCount(user.NextLevel);
 
             var exerciseBurpeeCount = user.Drinks
                 .SelectMany(drink => drink.ExerciseBurpees)
@@ -45,10 +43,16 @@ namespace Drink4Burpee.Services
 
             if (exerciseBurpeeCount >= nextLevelBurpeeCount)
             {
-                user.Level = nextLevel;
+                user.Level = user.NextLevel;
             }
 
             await UpdateUserAsync(user);
+        }
+
+        public int GetNextLevelBurpeeCount(int nextLevel)
+        {
+            var nextLevelFibonacciNumber = GetNextLevelFibonacciNumber(nextLevel);
+            return nextLevelFibonacciNumber * BusinessConstants.BURPEE_BASE_COUNT_IN_LEVEL;
         }
 
         private int GetNextLevelFibonacciNumber(int nextLevel)

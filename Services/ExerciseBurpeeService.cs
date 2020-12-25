@@ -103,5 +103,12 @@ namespace Drink4Burpee.Services
                 .SelectMany(d => d.ExerciseBurpees)
                 .Sum(eb => eb.Count);
         }
+
+        public int GetExerciseBurpeesCount(User user)
+        {
+            return user.Drinks
+                .SelectMany(d => d.ExerciseBurpees)
+                .Sum(eb => eb.Count);
+        }
     }
 }
